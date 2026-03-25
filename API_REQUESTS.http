@@ -1,0 +1,108 @@
+### Swagger API Documentation
+# Access the API documentation at:
+# http://localhost:3000/api/docs
+
+
+### INITIAL ###
+@url = http://localhost:3000/api
+@x-correlation-id = dsffff
+@refreshToken = 
+@accessToken = eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJqb2huMUBleGFtcGxlLmNvbSIsImlkIjoiNjljM2ZmYTQ4MzYyZjhjNjUwZjY0MzlmIiwiZW1haWwiOiJqb2huMUBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzc0NDUzMDk5LCJleHAiOjE3NzQ0NTM5OTl9.l7uE7srOIR5nWUzPL8e7vWWZIxpIPZSzh4PE6dn6rwWdmBe8i_U8KYu0w4BH_vmbM6kS_Zf_F5LsUtdITWcJtOeLA62W1YI3MblkqB8l_eDl9ghl_wDexj9MtC4-Bdgsx9dRXbBMkkB2FEZNY2YFwRp_v2F2TaFZFzuwRSLfnkEw9u_b8dP1xiXyksW0BILnE3MlyxZ5HC1DPo3N73xWlNt6gSl-kdddbaPUOKy-vQCDwxqZxbVfEknHMleaivVYvxQZD2kV3wOOJIvirPs6if_KQtZxdCnyjQAcWj-KanfZFl6QML0075OqKBygJOUby72aLeAyWOqxDwELwSReIQ
+
+##############################################################
+### AUTHENTICATION ENDPOINTS
+##############################################################
+
+###
+POST {{url}}/auth/register
+Content-Type: application/json
+Produces: application/json
+x-correlation-id: {{x-correlation-id}}
+
+{
+  "name": "John Doe",
+  "email": "john1@example.com",
+  "password": "SecurePass123!",
+}
+
+### 2. Login User
+POST {{url}}/auth/login
+Content-Type: application/json
+Produces: application/json
+x-correlation-id: {{x-correlation-id}}
+
+{
+  "email": "john1@example.com",
+  "password": "SecurePass123!"
+}
+
+### 3. Logout (requires x-user-id header from login response)
+POST {{url}}/auth/logout
+x-correlation-id: {{x-correlation-id}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Produces: application/json
+
+### 4. Refresh Token
+POST {{url}}/auth/refresh
+x-correlation-id: {{x-correlation-id}}
+Authorization: Bearer {{refreshToken}}
+Content-Type: application/json
+Produces: application/json
+
+
+### 5. Change Password
+POST {{url}}/auth/change-password
+x-correlation-id: {{x-correlation-id}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+Produces: application/json
+
+{
+  "newPassword": "NewSecurePass456!"
+}
+
+##############################################################
+### PROFILE MANAGEMENT ENDPOINTS
+##############################################################
+
+### 1. Create Profile
+POST {{url}}/auth/profile
+x-correlation-id: {{x-correlation-id}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "John Doesss",
+  "birthday": "1995-06-15",
+  "weight": 75,
+  "height": 180,
+  "interests": ["coding", "music"],
+}
+
+### 2. Get Profile
+GET {{url}}/auth/profile
+x-correlation-id: {{x-correlation-id}}
+Authorization: Bearer {{accessToken}}
+
+
+### 3. Update Profile
+PUT {{url}}/auth/profile
+x-correlation-id: {{x-correlation-id}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "weight": 78,
+  "interests": ["coding", "music", "gaming"]
+}
+
+##############################################################
+### DOCUMENTATION ENDPOINTS
+##############################################################
+
+### View Swagger UI Documentation
+GET {{url}}/docs
+
+### Get OpenAPI Specification (JSON)
+GET {{url}}/docs/openapi.json
