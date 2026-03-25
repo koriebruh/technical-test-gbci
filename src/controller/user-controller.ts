@@ -7,6 +7,16 @@ import { UpdateProfileRequest } from "../dtos/request/update-profile";
 import { RabbitMQUtil } from "../libs/rabbitmq";
 import { ExceptionHandler } from "../exceptions/exception-handler";
 import { ApiResponseFactory } from "../dtos/api-response-factory";
+import { JwtUtil } from "../libs/jwt";
+
+// Helper to extract user ID from token without re-verification (Middleware handles verification)
+const getUserId = (req: NextRequest): string => {
+    const authHeader = req.headers.get("authorization");
+    const token = authHeader?.split(" ")[1] || "";
+    // We trust middleware has validated this token for protected routes
+    const decoded = JwtUtil.decode(token);
+    return decoded ? decoded.id : "";
+};
 
 export const UserController = {
 
@@ -45,6 +55,8 @@ export const UserController = {
     async createProfile(req: NextRequest) {
         try {
             const body = await req.json();
+            const userId = getUserId(req);
+
             const request = new CreateProfileRequest(body);
             await RabbitMQUtil.publish('controller.createProfile.invoked', { path: req.nextUrl.pathname, userId });
             const response = await AuthService.createProfile(userId, request);
@@ -56,6 +68,8 @@ export const UserController = {
 
     async getProfile(req: NextRequest) {
         try {
+            const userId = getUserId(req);
+
             await RabbitMQUtil.publish('controller.getProfile.invoked', { path: req.nextUrl.pathname, userId });
             const response = await AuthService.getProfile(userId);
             return NextResponse.json(await ApiResponseFactory.success(response, "Profile fetched successfully"), { status: 200 });
@@ -67,6 +81,8 @@ export const UserController = {
     async updateProfile(req: NextRequest) {
         try {
             const body = await req.json();
+            const userId = getUserId(req);
+
             const request = new UpdateProfileRequest(body);
             await RabbitMQUtil.publish('controller.updateProfile.invoked', { path: req.nextUrl.pathname, userId });
             const response = await AuthService.updateProfile(userId, request);
@@ -78,6 +94,8 @@ export const UserController = {
 
     async logout(req: NextRequest) {
         try {
+            const userId = getUserId(req);
+
             await RabbitMQUtil.publish('controller.logout.invoked', { path: req.nextUrl.pathname, userId });
             await AuthService.logout(userId);
             return NextResponse.json(await ApiResponseFactory.success(null, "Logout successful"), { status: 200 });
@@ -89,6 +107,8 @@ export const UserController = {
     async changePassword(req: NextRequest) {
         try {
             const body = await req.json();
+            const userId = getUserId(req);
+
             await RabbitMQUtil.publish('controller.changePassword.invoked', { path: req.nextUrl.pathname, userId });
             await AuthService.changePassword(userId, body.newPassword);
             return NextResponse.json(await ApiResponseFactory.success(null, "Password changed successfully"), { status: 200 });
@@ -99,8 +119,20 @@ export const UserController = {
 
     async refreshToken(req: NextRequest) {
         try {
+            const authHeader = req.headers.get("authorization");
+            if (!authHeader || !authHeader.startsWith("Bearer ")) {
+                 return NextResponse.json(await ApiResponseFactory.error("Missing or invalid authorization token"), { status: 401 });
+            }
+            const token = authHeader.split(" ")[1];
+
+            // For refresh token, we can get userId from the decoded refresh token inside AuthService or decode here if needed for logging
+            // But since your AuthService.refreshToken takes the token, it will extract user ID.
+            // However, to keep consistent logging in controller which uses userId:
+            const decoded = JwtUtil.decode(token);
+            const userId = decoded ? decoded.id : "unknown";
+
             await RabbitMQUtil.publish('controller.refreshToken.invoked', { path: req.nextUrl.pathname, userId });
-            const response = await AuthService.refreshToken();
+            const response = await AuthService.refreshToken(token);
             return NextResponse.json(await ApiResponseFactory.success(response, "Token refreshed successfully"), { status: 200 });
         } catch (error) {
             return ExceptionHandler.handle(error);

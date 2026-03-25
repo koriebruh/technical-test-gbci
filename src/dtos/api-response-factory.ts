@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import { Meta, ApiResponse } from "./api-response";
+import { AppConfig } from "../config/app-config";
 
 export class ApiResponseFactory {
     static async success<T>(
@@ -32,8 +33,8 @@ export class ApiResponseFactory {
         return {
             timestamp: new Date(),
             correlationId: meta?.correlationId ?? (await this.getCorrelationId()),
-            service: meta?.service,
-            version: meta?.version,
+            service: AppConfig.APP.NAME,
+            version: AppConfig.APP.VERSION,
         };
     }
 

@@ -3,5 +3,9 @@ export type UpdateProfileResponseProps = {
 }
 
 export class UpdateProfileResponse {
-    constructor(public props: UpdateProfileResponseProps) {}
+    message: string;
+
+    constructor(props: UpdateProfileResponseProps) {
+        this.message = props.message;
+    }
 }

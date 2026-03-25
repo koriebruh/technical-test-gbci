@@ -1,10 +1,7 @@
 import mongoose from "mongoose";
+import { AppConfig } from "../config/app-config";
 
-const MONGODB_URI = process.env.MONGODB_URI!;
-
-if (!MONGODB_URI) {
-  throw new Error("MONGODB_URI is not defined in .env");
-}
+const MONGODB_URI = AppConfig.MONGO.URI!;
 
 // Cached connection untuk menghindari multiple connections di hot reload
 declare global {

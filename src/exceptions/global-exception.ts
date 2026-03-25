@@ -2,7 +2,6 @@ export class GlobalException extends Error {
   constructor(
     public statusCode: number,
     public message: string,
-    public code: string
   ) {
     super(message);
     this.name = 'GlobalException';

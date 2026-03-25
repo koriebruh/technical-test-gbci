@@ -1,6 +1,7 @@
 import * as amqp from 'amqplib';
+import { AppConfig } from '../config/app-config';
 
-const RABBITMQ_URL = process.env.RABBITMQ_URL || 'amqp://localhost:5672';
+const RABBITMQ_URL = AppConfig.RABBITMQ.URL;
 
 interface RabbitMQConnection extends amqp.Connection {
   createChannel(): Promise<amqp.Channel>;

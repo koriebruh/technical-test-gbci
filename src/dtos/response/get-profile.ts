@@ -32,5 +32,19 @@ export type GetProfileResponseProps = {
 }
 
 export class GetProfileResponse {
-    constructor(public props: GetProfileResponseProps) {}
+    email: string;
+    name: string;
+    birthday: Date;
+    weight: number;
+    height: number;
+    interests: string[];
+
+    constructor(props: GetProfileResponseProps) {
+        this.email = props.email;
+        this.name = props.name;
+        this.birthday = props.birthday;
+        this.weight = props.weight;
+        this.height = props.height;
+        this.interests = props.interests;
+    }
 }

@@ -7,7 +7,9 @@
 @url = http://localhost:3000/api
 @x-correlation-id = dsffff
 @refreshToken = 
-@accessToken = eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJqb2huMUBleGFtcGxlLmNvbSIsImlkIjoiNjljM2ZmYTQ4MzYyZjhjNjUwZjY0MzlmIiwiZW1haWwiOiJqb2huMUBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzc0NDUzMDk5LCJleHAiOjE3NzQ0NTM5OTl9.l7uE7srOIR5nWUzPL8e7vWWZIxpIPZSzh4PE6dn6rwWdmBe8i_U8KYu0w4BH_vmbM6kS_Zf_F5LsUtdITWcJtOeLA62W1YI3MblkqB8l_eDl9ghl_wDexj9MtC4-Bdgsx9dRXbBMkkB2FEZNY2YFwRp_v2F2TaFZFzuwRSLfnkEw9u_b8dP1xiXyksW0BILnE3MlyxZ5HC1DPo3N73xWlNt6gSl-kdddbaPUOKy-vQCDwxqZxbVfEknHMleaivVYvxQZD2kV3wOOJIvirPs6if_KQtZxdCnyjQAcWj-KanfZFl6QML0075OqKBygJOUby72aLeAyWOqxDwELwSReIQ
+@accessToken = eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJrb2huQGV4YW1wbGUuY29tIiwiaWQiOiI2OWM0MDYzNjViNmVhYmZkMGJmMmU4OTkiLCJlbWFpbCI6ImtvaG5AZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc3NDQ1NTAyOCwiZXhwIjoxNzc0NDU1OTI4fQ.6N3tAMgYrMpYPMdi1O6rXir9qkrUf7eJ88qGr2TIQXDuxeWQhR-x6tlCFMuNcG4P5ODPI26BlzKe0yVaw6gKA0tVq3SdQyu1FFwV2qwMPJcT1128nug8R1BEu9X786hRqW4gq3d5kunlCIA0GgcmuFQHUvXcCWG6Ooi9T6kS1DQB6LqUHbRYhdyMxXUgDcHFMIrKV3bOuxsGA7WszpHhy5S08f8FBZ2hE8s27QUITN8-rBsGLQqKbYdK0cpTqfdsnbc0Gd_ntKEvACuNUBbnvaTIpQpxxa3Ax_NKcvXzPKdWmmG-Ts2lmpEFZrgxsMIvYqgWjvc4ugr98CD95_YCVg
+
+
 
 ##############################################################
 ### AUTHENTICATION ENDPOINTS
@@ -20,10 +22,11 @@ Produces: application/json
 x-correlation-id: {{x-correlation-id}}
 
 {
-  "name": "John Doe",
-  "email": "john1@example.com",
-  "password": "SecurePass123!",
+  "name": "koewin Kohn",
+  "email": "kohn@example.com",
+  "password": "SecurePass123!"
 }
+
 
 ### 2. Login User
 POST {{url}}/auth/login
@@ -32,8 +35,8 @@ Produces: application/json
 x-correlation-id: {{x-correlation-id}}
 
 {
-  "email": "john1@example.com",
-  "password": "SecurePass123!"
+  "email": "kohn@example.com",
+  "password": "NewSecurePass456!"
 }
 
 ### 3. Logout (requires x-user-id header from login response)
@@ -73,11 +76,11 @@ Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
-  "name": "John Doesss",
-  "birthday": "1995-06-15",
-  "weight": 75,
+  "name": "Kohn Doe",
+  "birthday": "1975-06-17",
+  "weight": 50,
   "height": 180,
-  "interests": ["coding", "music"],
+  "interests": ["coding", "music", "gaming"]
 }
 
 ### 2. Get Profile
@@ -94,7 +97,7 @@ Content-Type: application/json
 
 {
   "weight": 78,
-  "interests": ["coding", "music", "gaming"]
+  "interests": ["coding", "music", "gaming", "traveling"]
 }
 
 ##############################################################

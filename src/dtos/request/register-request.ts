@@ -28,10 +28,6 @@ type RegisterRequestProps = {
     name: string;
     email: string;
     password: string;
-    birthday: Date;
-    weight: number;
-    height: number;
-    interests: string[];
 }
 
 class RegisterRequest {

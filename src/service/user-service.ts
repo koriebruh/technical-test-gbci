@@ -70,12 +70,16 @@ export const AuthService = {
             id: userId,
             email: user.email,
             role: user.role,
+            type: "access",
         };
         const token = await JwtUtil.sign(payload);
 
+        const refreshTokenPayload: JwtPayload = { ...payload, type: "refresh" };
+        const refreshToken = await JwtUtil.signRefreshToken(refreshTokenPayload);
+
         const response = new LoginResponse({
             access_token: token,
-            refresh_token: "dummy-refresh-token",
+            refresh_token: refreshToken,
             expires_in: 3600,
             type: "Bearer",
         });
@@ -137,10 +141,38 @@ export const AuthService = {
     },
 
     // Get New Refresh
-    async refreshToken(): Promise<RefreshTokenResponse> {
+    async refreshToken(token: string): Promise<RefreshTokenResponse> {
         console.log('[AuthService] refreshToken called');
-        // Assuming refresh token logic here
-        return { access_token: "new-access-token" };
+
+        try {
+            const decoded = await JwtUtil.verify(token);
+
+            if (decoded.type !== 'refresh') {
+                throw new Error("Invalid token type");
+            }
+
+            const user = await UserRepository.findById(decoded.id);
+            if (!user) {
+                throw new UserNotFoundException("User");
+            }
+
+            const payload: JwtPayload = {
+                sub: user.email,
+                id: String(user._id),
+                email: user.email,
+                role: user.role,
+                type: "access",
+            };
+
+            const accessToken = await JwtUtil.sign(payload);
+
+            await RabbitMQUtil.publish('user.token_refreshed', { event: 'TOKEN_REFRESHED', payload: { userId: decoded.id } });
+
+            return { access_token: accessToken };
+        } catch (error) {
+            console.error("RefreshToken Error:", error);
+            throw new InvalidCredentialsException();
+        }
     },
 
     // change password

@@ -8,20 +8,20 @@ export class ExceptionHandler {
 
     if (error instanceof GlobalException) {
       return NextResponse.json(
-        await ApiResponseFactory.error(error.message, { code: error.code }),
+        await ApiResponseFactory.error(error.message, ),
         { status: error.statusCode }
       );
     }
 
     if (error instanceof Error) {
       return NextResponse.json(
-        await ApiResponseFactory.error(error.message, { code: 'INTERNAL_SERVER_ERROR' }),
+        await ApiResponseFactory.error(error.message),
         { status: 500 }
       );
     }
 
     return NextResponse.json(
-      await ApiResponseFactory.error('An unexpected error occurred', { code: 'UNKNOWN_ERROR' }),
+      await ApiResponseFactory.error('An unexpected error occurred'),
       { status: 500 }
     );
   }

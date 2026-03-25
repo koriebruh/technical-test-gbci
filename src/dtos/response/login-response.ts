@@ -27,7 +27,17 @@ type LoginResponseProps = {
 
 
 class LoginResponse {
-    constructor(public props: LoginResponseProps) { }
+    access_token: string;
+    refresh_token: string;
+    expires_in: number;
+    type: "Bearer";
+
+    constructor(props: LoginResponseProps) {
+        this.access_token = props.access_token;
+        this.refresh_token = props.refresh_token;
+        this.expires_in = props.expires_in;
+        this.type = props.type;
+    }
 }
 
 export { LoginResponse }
