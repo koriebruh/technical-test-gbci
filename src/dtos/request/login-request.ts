@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 /**
  * @swagger
  * components:
@@ -17,13 +19,19 @@
  *         - email
  *         - password
  */
-type LoginRequestProps = {
-    email: string;
-    password: string;
-}
+const LoginSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(1),
+});
+
+type LoginRequestProps = z.infer<typeof LoginSchema>;
 
 class LoginRequest {
-    constructor(public props: LoginRequestProps) {}
+    public props: LoginRequestProps;
+
+    constructor(props: unknown) {
+        this.props = LoginSchema.parse(props);
+    }
 }
 
 export { LoginRequest };

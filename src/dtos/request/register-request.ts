@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 /**
  * @swagger
  * components:
@@ -24,14 +26,20 @@
  *         - email
  *         - password
  */
-type RegisterRequestProps = {
-    name: string;
-    email: string;
-    password: string;
-}
+const RegisterSchema = z.object({
+    name: z.string().min(2).max(100),
+    email: z.string().email(),
+    password: z.string().min(8),
+});
+
+type RegisterRequestProps = z.infer<typeof RegisterSchema>;
 
 class RegisterRequest {
-    constructor(public props: RegisterRequestProps) { }
+    public props: RegisterRequestProps;
+
+    constructor(props: unknown) {
+        this.props = RegisterSchema.parse(props);
+    }
 }
 
-export { RegisterRequest }
+export { RegisterRequest };

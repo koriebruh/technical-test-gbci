@@ -18,8 +18,9 @@ import {
   PasswordChangeException,
   ProfileUpdateException
 } from "../exceptions/user-exception";
+import { AppConfig } from "../config/app-config";
 
-const SALT_ROUNDS = 12;
+const SALT_ROUNDS = AppConfig.SECURITY.SALT_ROUNDS;
 
 interface RefreshTokenResponse {
   access_token: string;
@@ -98,7 +99,7 @@ export const AuthService = {
         if (!user) throw new UserNotFoundException("User");
 
         const updatePayload: UpdateUserPayload = request.props;
-        await UserRepository.updateById(userId, updatePayload);
+        await UserRepository.updateOne(userId, updatePayload);
         await RabbitMQUtil.publish('user.profile_created', { event: 'PROFILE_CREATED', payload: { userId, data: request.props } });
         return new UpdateProfileResponse({ message: "Profile created successfully" });
     },
@@ -126,7 +127,7 @@ export const AuthService = {
 
         try {
             const updatePayload: UpdateUserPayload = request.props;
-            await UserRepository.updateById(userId, updatePayload);
+            await UserRepository.updateOne(userId, updatePayload);
             await RabbitMQUtil.publish('user.profile_updated', { event: 'PROFILE_UPDATED', payload: { userId, data: request.props } });
             return new UpdateProfileResponse({ message: "Profile updated successfully" });
         } catch {
@@ -183,7 +184,7 @@ export const AuthService = {
 
         try {
             const hashedPassword = await bcrypt.hash(newPassword, SALT_ROUNDS);
-            await UserRepository.updateById(userId, { password: hashedPassword });
+            await UserRepository.updateOne(userId, { password: hashedPassword });
             await RabbitMQUtil.publish('user.password_changed', { event: 'PASSWORD_CHANGED', payload: { userId } });
         } catch {
             throw new PasswordChangeException();

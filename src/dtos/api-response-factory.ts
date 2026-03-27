@@ -32,7 +32,7 @@ export class ApiResponseFactory {
     private static async buildMeta(meta?: Partial<Meta>): Promise<Meta> {
         return {
             timestamp: new Date(),
-            correlationId: meta?.correlationId ?? (await this.getCorrelationId()),
+            correlation_id: meta?.correlation_id ?? (await this.getCorrelationId()),
             service: AppConfig.APP.NAME,
             version: AppConfig.APP.VERSION,
         };

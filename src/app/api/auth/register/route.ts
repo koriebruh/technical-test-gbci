@@ -19,10 +19,6 @@ import { UserController } from '@/controller/user-controller';
  *             name: John Doe
  *             email: john@example.com
  *             password: SecurePass123!
- *             birthday: "1995-06-15"
- *             weight: 75
- *             height: 180
- *             interests: [coding, music, sports]
  *     responses:
  *       201:
  *         description: User registered successfully
@@ -34,7 +30,7 @@ import { UserController } from '@/controller/user-controller';
  *                 - type: object
  *                   properties:
  *                     data:
- *                       $ref: '#/components/schemas/User'
+ *                       $ref: '#/components/schemas/RegisterResponse'
  *       400:
  *         description: Invalid input data
  *         content:

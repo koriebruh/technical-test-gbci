@@ -104,6 +104,10 @@ import { UserController } from '@/controller/user-controller';
  *             schema:
  *               allOf:
  *                 - $ref: '#/components/schemas/ApiResponse'
+ *                 - type: object
+ *                   properties:
+ *                     data:
+ *                       $ref: '#/components/schemas/UpdateProfileResponse'
  *       400:
  *         description: Invalid input data
  *         content:

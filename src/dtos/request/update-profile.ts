@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 /**
  * @swagger
  * components:
@@ -26,14 +28,20 @@
  *             type: string
  *           example: ['coding', 'music', 'gaming']
  */
-export type UpdateProfileRequestProps = {
-    name?: string;
-    birthday?: Date;
-    weight?: number;
-    height?: number;
-    interests?: string[];
-}
+const UpdateProfileSchema = z.object({
+    name: z.string().optional(),
+    birthday: z.string().transform((str) => new Date(str)).optional(),
+    weight: z.number().min(0).optional(),
+    height: z.number().min(0).optional(),
+    interests: z.array(z.string()).optional(),
+});
+
+export type UpdateProfileRequestProps = z.infer<typeof UpdateProfileSchema>;
 
 export class UpdateProfileRequest {
-    constructor(public props: UpdateProfileRequestProps) {}
+    public props: UpdateProfileRequestProps;
+
+    constructor(props: unknown) {
+        this.props = UpdateProfileSchema.parse(props);
+    }
 }

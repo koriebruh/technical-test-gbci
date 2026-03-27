@@ -2,7 +2,7 @@ import { GlobalException } from './global-exception';
 
 export class UserAlreadyExistsException extends GlobalException {
   constructor(email: string) {
-    super(409, `User with email ${email} already exists`, 'USER_ALREADY_EXISTS');
+    super(409, `User with email ${email} already exists`);
     this.name = 'UserAlreadyExistsException';
     Object.setPrototypeOf(this, UserAlreadyExistsException.prototype);
   }
@@ -10,7 +10,7 @@ export class UserAlreadyExistsException extends GlobalException {
 
 export class UserNotFoundException extends GlobalException {
   constructor(identifier: string = 'User') {
-    super(404, `${identifier} not found`, 'USER_NOT_FOUND');
+    super(404, `${identifier} not found`);
     this.name = 'UserNotFoundException';
     Object.setPrototypeOf(this, UserNotFoundException.prototype);
   }
@@ -18,7 +18,7 @@ export class UserNotFoundException extends GlobalException {
 
 export class InvalidCredentialsException extends GlobalException {
   constructor() {
-    super(401, 'Invalid email or password', 'INVALID_CREDENTIALS');
+    super(401, 'Invalid email or password');
     this.name = 'InvalidCredentialsException';
     Object.setPrototypeOf(this, InvalidCredentialsException.prototype);
   }
@@ -26,7 +26,7 @@ export class InvalidCredentialsException extends GlobalException {
 
 export class PasswordChangeException extends GlobalException {
   constructor(message: string = 'Failed to change password') {
-    super(400, message, 'PASSWORD_CHANGE_ERROR');
+    super(400, message);
     this.name = 'PasswordChangeException';
     Object.setPrototypeOf(this, PasswordChangeException.prototype);
   }
@@ -34,7 +34,7 @@ export class PasswordChangeException extends GlobalException {
 
 export class ProfileUpdateException extends GlobalException {
   constructor(message: string = 'Failed to update profile') {
-    super(400, message, 'PROFILE_UPDATE_ERROR');
+    super(400, message);
     this.name = 'ProfileUpdateException';
     Object.setPrototypeOf(this, ProfileUpdateException.prototype);
   }

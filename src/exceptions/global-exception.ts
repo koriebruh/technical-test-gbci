@@ -11,7 +11,7 @@ export class GlobalException extends Error {
 
 export class ValidationException extends GlobalException {
   constructor(message: string) {
-    super(400, message, 'VALIDATION_ERROR');
+    super(422, message);
     this.name = 'ValidationException';
     Object.setPrototypeOf(this, ValidationException.prototype);
   }
@@ -19,7 +19,7 @@ export class ValidationException extends GlobalException {
 
 export class InternalServerException extends GlobalException {
   constructor(message: string = 'Internal Server Error') {
-    super(500, message, 'INTERNAL_SERVER_ERROR');
+    super(500, message);
     this.name = 'InternalServerException';
     Object.setPrototypeOf(this, InternalServerException.prototype);
   }
@@ -27,7 +27,7 @@ export class InternalServerException extends GlobalException {
 
 export class NotFoundException extends GlobalException {
   constructor(message: string = 'Resource not found') {
-    super(404, message, 'NOT_FOUND');
+    super(404, message);
     this.name = 'NotFoundException';
     Object.setPrototypeOf(this, NotFoundException.prototype);
   }
@@ -35,7 +35,7 @@ export class NotFoundException extends GlobalException {
 
 export class UnauthorizedException extends GlobalException {
   constructor(message: string = 'Unauthorized') {
-    super(401, message, 'UNAUTHORIZED');
+    super(401, message);
     this.name = 'UnauthorizedException';
     Object.setPrototypeOf(this, UnauthorizedException.prototype);
   }

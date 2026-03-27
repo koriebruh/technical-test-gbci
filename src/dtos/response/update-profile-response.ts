@@ -1,3 +1,14 @@
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     UpdateProfileResponse:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *           example: Operation successful
+ */
 export type UpdateProfileResponseProps = {
     message: string;
 }

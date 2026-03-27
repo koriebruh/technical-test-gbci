@@ -7,6 +7,9 @@ export const AppConfig = {
         ACCESS_EXPIRATION_TIME: process.env.JWT_ACCESS_EXPIRATION_TIME || "15m",
         REFRESH_EXPIRATION_TIME: process.env.JWT_REFRESH_EXPIRATION_TIME || "7d",
     },
+    SECURITY: {
+        SALT_ROUNDS: parseInt(process.env.SALT_ROUNDS || "12", 10) || 12, // Fallback if NaN
+    },
     MONGO: {
         URI: process.env.MONGODB_URI,
     },
@@ -19,4 +22,3 @@ export const AppConfig = {
 if (!AppConfig.MONGO.URI) {
     throw new Error("MONGODB_URI is not defined in .env");
 }
-
