@@ -10,7 +10,9 @@ import { UserController } from '@/controller/user-controller';
  *     tags:
  *       - Authentication
  *     security:
- *       - userIdHeader: []
+ *       - bearerAuth: []
+ *     parameters:
+ *       - $ref: '#/components/parameters/correlationIdHeader'
  *     responses:
  *       200:
  *         description: Token refreshed successfully
@@ -27,6 +29,12 @@ import { UserController } from '@/controller/user-controller';
  *                         access_token:
  *                           type: string
  *                           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+ *       401:
+ *         description: Missing or invalid token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       500:
  *         description: Internal server error
  *         content:
@@ -37,4 +45,3 @@ import { UserController } from '@/controller/user-controller';
 export async function POST(req: NextRequest) {
   return UserController.refreshToken(req);
 }
-

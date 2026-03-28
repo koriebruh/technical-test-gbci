@@ -34,14 +34,11 @@
  *         data:
  *           type: object
  *           nullable: true
- *         errors:
- *           type: object
- *           nullable: true
- *           example: { code: 'ERROR_CODE' }
  *         meta:
  *           $ref: '#/components/schemas/Meta'
  *       required:
  *         - success
+ *         - message
  *         - meta
  *     Error:
  *       type: object
@@ -51,13 +48,16 @@
  *           example: false
  *         message:
  *           type: string
- *           example: Error message
+ *           example: User with email kohn@example.com already exists
  *         errors:
  *           type: object
  *           nullable: true
- *           example: { code: 'ERROR_CODE' }
  *         meta:
  *           $ref: '#/components/schemas/Meta'
+ *       required:
+ *         - success
+ *         - message
+ *         - meta
  */
 export type ApiResponse<T> = {
     success: boolean;

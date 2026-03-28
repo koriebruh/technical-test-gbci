@@ -9,6 +9,8 @@ import { UserController } from '@/controller/user-controller';
  *     description: Authenticate user with email and password, returns JWT token
  *     tags:
  *       - Authentication
+ *     parameters:
+ *       - $ref: '#/components/parameters/correlationIdHeader'
  *     requestBody:
  *       required: true
  *       content:
@@ -30,12 +32,6 @@ import { UserController } from '@/controller/user-controller';
  *                   properties:
  *                     data:
  *                       $ref: '#/components/schemas/LoginResponse'
- *       400:
- *         description: Invalid input data
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
  *       401:
  *         description: Invalid credentials
  *         content:
@@ -44,6 +40,12 @@ import { UserController } from '@/controller/user-controller';
  *               $ref: '#/components/schemas/Error'
  *       404:
  *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       422:
+ *         description: Validation error
  *         content:
  *           application/json:
  *             schema:
@@ -58,4 +60,3 @@ import { UserController } from '@/controller/user-controller';
 export async function POST(req: NextRequest) {
   return UserController.login(req);
 }
-

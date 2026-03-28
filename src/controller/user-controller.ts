@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { AuthService } from "../service/user-service";
 import { RegisterRequest } from "../dtos/request/register-request";
 import { LoginRequest } from "../dtos/request/login-request";
-import { CreateProfileRequest } from "../dtos/request/create-profile";
-import { UpdateProfileRequest } from "../dtos/request/update-profile";
+import { CreateProfileRequest } from "../dtos/request/create-profile-request";
+import { UpdateProfileRequest } from "../dtos/request/update-profile-request";
+import { ChangePassRequest } from "../dtos/request/change-pass-request";
 import { RabbitMQUtil } from "../libs/rabbitmq";
 import { ExceptionHandler } from "../exceptions/exception-handler";
 import { ApiResponseFactory } from "../dtos/api-response-factory";
 import { JwtUtil } from "../libs/jwt";
+import { AuthService } from "../service/user-service";
 
 // Helper to extract user ID from token without re-verification (Middleware handles verification)
 const getUserId = (req: NextRequest): string => {
@@ -109,8 +110,9 @@ export const UserController = {
             const body = await req.json();
             const userId = getUserId(req);
 
+            const request = new ChangePassRequest(body);
             await RabbitMQUtil.publish('controller.changePassword.invoked', { path: req.nextUrl.pathname, userId });
-            await AuthService.changePassword(userId, body.newPassword);
+            await AuthService.changePassword(userId, request);
             return NextResponse.json(await ApiResponseFactory.success(null, "Password changed successfully"), { status: 200 });
         } catch (error) {
             return ExceptionHandler.handle(error);

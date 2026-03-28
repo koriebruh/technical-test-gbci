@@ -10,7 +10,9 @@ import { UserController } from '@/controller/user-controller';
  *     tags:
  *       - Authentication
  *     security:
- *       - userIdHeader: []
+ *       - bearerAuth: []
+ *     parameters:
+ *       - $ref: '#/components/parameters/correlationIdHeader'
  *     responses:
  *       200:
  *         description: Logout successful
@@ -29,4 +31,3 @@ import { UserController } from '@/controller/user-controller';
 export async function POST(req: NextRequest) {
   return UserController.logout(req);
 }
-

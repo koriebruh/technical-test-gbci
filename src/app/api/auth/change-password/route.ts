@@ -10,21 +10,15 @@ import { UserController } from '@/controller/user-controller';
  *     tags:
  *       - Authentication
  *     security:
- *       - userIdHeader: []
+ *       - bearerAuth: []
+ *     parameters:
+ *       - $ref: '#/components/parameters/correlationIdHeader'
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               newPassword:
- *                 type: string
- *                 format: password
- *                 minLength: 8
- *                 example: NewSecurePass456!
- *             required:
- *               - newPassword
+ *             $ref: '#/components/schemas/ChangePassRequest'
  *     responses:
  *       200:
  *         description: Password changed successfully
@@ -34,13 +28,19 @@ import { UserController } from '@/controller/user-controller';
  *               allOf:
  *                 - $ref: '#/components/schemas/ApiResponse'
  *       400:
- *         description: Invalid input data
+ *         description: Passwords do not match or Invalid current password
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
  *       404:
  *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       422:
+ *         description: Validation error
  *         content:
  *           application/json:
  *             schema:
@@ -55,4 +55,3 @@ import { UserController } from '@/controller/user-controller';
 export async function POST(req: NextRequest) {
   return UserController.changePassword(req);
 }
-

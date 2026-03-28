@@ -24,7 +24,7 @@ x-correlation-id: {{x-correlation-id}}
 
 {
   "name": "koewin Kohn",
-  "email": "kohn@example.com",
+  "email": "kohn1@example.com",
   "password": "SecurePass123!"
 }
 
@@ -36,7 +36,7 @@ Produces: application/json
 x-correlation-id: {{x-correlation-id}}
 
 {
-  "email": "kohn@example.com",
+  "email": "kohn@example.coms",
   "password": "NewSecurePass456!"
 }
 
@@ -63,7 +63,9 @@ Content-Type: application/json
 Produces: application/json
 
 {
-  "newPassword": "NewSecurePass456!"
+  "current_password": "NewSecurePass456!",
+  "new_password": "AssPass456!",
+  "confirm_password": "AssPass456"
 }
 
 ##############################################################

@@ -27,27 +27,23 @@ const swaggerOptions = {
           type: 'http',
           scheme: 'bearer',
           bearerFormat: 'JWT',
-          description: 'JWT Authentication token from login endpoint',
-        },
-        userIdHeader: {
-          type: 'apiKey',
-          in: 'header',
-          name: 'x-user-id',
-          description: 'User ID from authentication (injected by gateway/middleware)',
-        },
+          description: 'JWT Authentication token from login/refresh endpoint',
+        }
+      },
+      parameters: {
         correlationIdHeader: {
-          type: 'apiKey',
           in: 'header',
           name: 'x-correlation-id',
+          required: true,
+          schema: {
+            type: 'string',
+            format: 'uuid'
+          },
           description: 'Trace ID for request tracking',
-        },
+        }
       },
     },
-    security: [
-      {
-        correlationIdHeader: [],
-      },
-    ],
+    security: [],
   },
   apis: [
     './src/app/api/**/*.ts',
@@ -56,5 +52,4 @@ const swaggerOptions = {
 };
 
 export const swaggerSpec = swaggerJsdoc(swaggerOptions);
-
 

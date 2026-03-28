@@ -10,7 +10,9 @@ import { UserController } from '@/controller/user-controller';
  *     tags:
  *       - Profile
  *     security:
- *       - userIdHeader: []
+ *       - bearerAuth: []
+ *     parameters:
+ *       - $ref: '#/components/parameters/correlationIdHeader'
  *     requestBody:
  *       required: true
  *       content:
@@ -43,6 +45,12 @@ import { UserController } from '@/controller/user-controller';
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
+ *       422:
+ *         description: Validation error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       500:
  *         description: Internal server error
  *         content:
@@ -55,7 +63,9 @@ import { UserController } from '@/controller/user-controller';
  *     tags:
  *       - Profile
  *     security:
- *       - userIdHeader: []
+ *       - bearerAuth: []
+ *     parameters:
+ *       - $ref: '#/components/parameters/correlationIdHeader'
  *     responses:
  *       200:
  *         description: Profile retrieved successfully
@@ -86,7 +96,9 @@ import { UserController } from '@/controller/user-controller';
  *     tags:
  *       - Profile
  *     security:
- *       - userIdHeader: []
+ *       - bearerAuth: []
+ *     parameters:
+ *       - $ref: '#/components/parameters/correlationIdHeader'
  *     requestBody:
  *       required: true
  *       content:
@@ -116,6 +128,12 @@ import { UserController } from '@/controller/user-controller';
  *               $ref: '#/components/schemas/Error'
  *       404:
  *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       422:
+ *         description: Validation error
  *         content:
  *           application/json:
  *             schema:

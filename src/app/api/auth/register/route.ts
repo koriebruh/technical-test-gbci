@@ -9,6 +9,8 @@ import { UserController } from '@/controller/user-controller';
  *     description: Create a new user account with email and password
  *     tags:
  *       - Authentication
+ *     parameters:
+ *       - $ref: '#/components/parameters/correlationIdHeader'
  *     requestBody:
  *       required: true
  *       content:
@@ -31,14 +33,14 @@ import { UserController } from '@/controller/user-controller';
  *                   properties:
  *                     data:
  *                       $ref: '#/components/schemas/RegisterResponse'
- *       400:
- *         description: Invalid input data
+ *       409:
+ *         description: User already exists
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
- *       409:
- *         description: User already exists
+ *       422:
+ *         description: Validation error
  *         content:
  *           application/json:
  *             schema:
@@ -53,4 +55,3 @@ import { UserController } from '@/controller/user-controller';
 export async function POST(req: NextRequest) {
   return UserController.register(req);
 }
-
